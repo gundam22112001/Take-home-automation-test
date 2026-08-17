@@ -10,6 +10,7 @@ const reporters: ReporterDescription[] = [
   }],
 ];
 if (process.env.CI) {
+  reporters.push(['blob', { outputDir: 'blob-report' }]);
   reporters.push(['github']);
 }
 
