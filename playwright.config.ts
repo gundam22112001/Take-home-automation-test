@@ -1,4 +1,17 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, type ReporterDescription } from '@playwright/test';
+
+const reporters: ReporterDescription[] = [
+  ['html'],
+  ['line'],
+  ['allure-playwright', {
+    detail: true,
+    outputFolder: 'allure-results',
+    suiteTitle: true,
+  }],
+];
+if (process.env.CI) {
+  reporters.push(['github']);
+}
 
 export default defineConfig({
   testDir: './tests',
@@ -9,16 +22,7 @@ export default defineConfig({
   expect: {
     timeout: 10 * 1000,
   },
-  reporter: [
-    ['html'],
-    ['line'],
-    ...(process.env.CI ? [['github'] as ['github']] : []),
-    ['allure-playwright', {
-      detail: true,
-      outputFolder: 'allure-results',
-      suiteTitle: true,
-    }],
-  ],
+  reporter: reporters,
   use: {
     actionTimeout: 20 * 1000,
     baseURL: process.env.BASE_URL || 'https://www.demoblaze.com',
