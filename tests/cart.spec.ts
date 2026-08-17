@@ -792,7 +792,7 @@ test.describe('Cart', () => {
             const orderModal = new PlaceOrderModal(guessPage)
             const confirmation = new OrderConfirmationModal(guessPage)
 
-            const specialName = 'José García & Co.'
+            const specialName = 'Chinh@@'
 
             await step('Add a product and open Place Order modal', async () => {
                 await homePage.navigate()
