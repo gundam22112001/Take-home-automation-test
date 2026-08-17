@@ -120,16 +120,17 @@ jobs:
           merge-multiple: true
 
       - name: Restore Allure history from gh-pages
-        uses: actions/checkout@v4
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Copy Allure history into results
         run: |
-          if [ -d gh-pages/history ]; then
-            cp -r gh-pages/history allure-results/history
+          if git fetch origin gh-pages --depth=1 2>/dev/null; then
+            git checkout FETCH_HEAD -- history 2>/dev/null || true
+            if [ -d history ]; then
+              cp -r history allure-results/history
+              echo "Allure history restored."
+            else
+              echo "No history directory on gh-pages yet — starting fresh."
+            fi
+          else
+            echo "gh-pages branch does not exist yet — starting fresh."
           fi
 
       - name: Generate Allure report
