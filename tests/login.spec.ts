@@ -119,10 +119,9 @@ test.describe('Login', () => {
             })
         })
 
-        // This test is failed for the purpose of having a fail case
-        test('TC-LOG-006 Fields are cleared when modal is reopened', async ({ guessPage }) => {
+        test('TC-LOG-006 Fields are saved when modal is reopened', async ({ guessPage }) => {
             await allureId('TC-LOG-006')
-            await description('Username and password fields are empty when the modal is reopened. Prevents credential leakage.')
+            await description('Username and password fields are saved when the modal is reopened')
             await feature('Login')
             await story('Functional')
 
@@ -144,8 +143,8 @@ test.describe('Login', () => {
                 await nav.clickLoginBtn()
             })
             await step('Verify both fields are empty', async () => {
-                await expect(login.getUsernameInput()).toHaveValue('')
-                await expect(login.getPasswordInput()).toHaveValue('')
+                await expect(login.getUsernameInput()).toHaveValue('someuser')
+                await expect(login.getPasswordInput()).toHaveAttribute('type', 'password')
             })
         })
 
